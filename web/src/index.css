@@ -1,16 +1,16 @@
-.strike-zone-container {
+.strike-zone-container { /* This is the container for the entire strike zone */
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.strike-zone-row {
+.strike-zone-row { /* This is the row for the strike zone */
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.strike-zone-button {
+.strike-zone-button { /* This is the button for the strike zone */
   width: 200px;
   height: 200px;
 }

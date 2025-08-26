@@ -1,6 +1,6 @@
 export default function StrikeZone() {
   return (
-    <>
+    <div className="strike-zone-container">
       <div className="strike-zone-row">
         <button className="strike-zone-button">1</button>
         <button className="strike-zone-button">2</button>
@@ -16,6 +16,6 @@ export default function StrikeZone() {
         <button className="strike-zone-button">8</button>
         <button className="strike-zone-button">9</button>
       </div>
-    </>
+    </div>
   );
 }
