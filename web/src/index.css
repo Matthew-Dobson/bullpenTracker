@@ -1,16 +1,58 @@
-.strike-zone-container { /* This is the container for the entire strike zone */
-  display: flex;
-  justify-content: center;
-  align-items: center;
+/* Square container that really stays square on the RHS */
+.page-layout { 
+  display:grid; 
+  grid-template-columns: 1fr 1fr; 
+  gap:16px; 
+  height:100vh; 
+  padding:12px; 
 }
 
-.strike-zone-row { /* This is the row for the strike zone */
+
+.right-pane {
+  grid-column: 2;
+  min-width: 0;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; /* centers vertically too */
 }
 
-.strike-zone-button { /* This is the button for the strike zone */
-  width: 200px;
-  height: 200px;
+/* Force a square using an intrinsic ratio box */
+.square-wrap {
+  position: relative;
+  inline-size: min(95%, 45vw, 720px); /* fits in the 50/50 column */
+  max-inline-size: 100%;
 }
+
+.square-wrap::before {
+  content: "";
+  display: block;
+  padding-top: 100%; /* <- makes it a square */
+}
+
+/* ===== 5x5 grid fills the square ===== */
+.grid-5x5 {
+  position: absolute;  /* fill the square created above */
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  gap: 1px;
+  width: 100%;
+  height: 100%;
+}
+
+/* Buttons fill their grid cell */
+.grid-5x5 > button {
+  display: grid;
+  place-items: center;
+  border: 1px solid #222;
+  font: inherit;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+/* Visuals */
+.miss-button   { background: rgb(6, 27, 180); }
+.strike-button { background: rgb(243, 43, 43); }
