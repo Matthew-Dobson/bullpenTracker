@@ -1,43 +1,44 @@
-export default function App() {
+export default function StrikeZone() {
   return (
     <div className="page-layout">
-      <section className="left-pane">Table to come</section>
+      {/* Left panel: table */}
+      <div className="table">table</div>
 
-      <section className="right-pane">
-        <div className="square-wrap">
-          <div className="grid-5x5">
-            <button className="miss-button">T1</button>
-            <button className="miss-button">T2</button>
-            <button className="miss-button">T3</button>
-            <button className="miss-button">T4</button>
-            <button className="miss-button">T5</button>
+      {/* Top-right controls */}
+      <div className="start-stop-container">
+        <button className="control-btn start">Start</button>
+        <button className="control-btn stop">Stop</button>
+      </div>
 
-            <button className="miss-button">L1</button>
-            <button className="strike-button">1</button>
-            <button className="strike-button">2</button>
-            <button className="strike-button">3</button>
-            <button className="miss-button">R1</button>
+      <div className="pitch-type-container">
+        <button className="pitch-btn">Four Seam</button>
+        <button className="pitch-btn">12–6 Curveball</button>
+      </div>
 
-            <button className="miss-button">L2</button>
-            <button className="strike-button">4</button>
-            <button className="strike-button">5</button>
-            <button className="strike-button">6</button>
-            <button className="miss-button">R2</button>
+      {/* Intended zone (simple 3×3 grid) */}
+      <div className="intended-zone">
+        {[...Array(9)].map((_, i) => (
+          <button key={i} className="strike">{i + 1}</button>
+        ))}
+      </div>
 
-            <button className="miss-button">L3</button>
-            <button className="strike-button">7</button>
-            <button className="strike-button">8</button>
-            <button className="strike-button">9</button>
-            <button className="miss-button">R3</button>
+      {/* Actual zone (3×3 strike + outer miss ring) */}
+      <div className="actual-zone">
+        {/* Inner strike zone */}
+        {[...Array(9)].map((_, i) => (
+          <button key={i} className={`strike az${i + 1}`}>{i + 1}</button>
+        ))}
 
-            <button className="miss-button">B1</button>
-            <button className="miss-button">B2</button>
-            <button className="miss-button">B3</button>
-            <button className="miss-button">B4</button>
-            <button className="miss-button">B5</button>
-          </div>
-        </div>
-      </section>
+        {/* Outer miss buttons */}
+        <button className="miss ATL">TL</button>
+        <button className="miss ATT">TT</button>
+        <button className="miss ATR">TR</button>
+        <button className="miss AML">ML</button>
+        <button className="miss AMR">MR</button>
+        <button className="miss ABL">BL</button>
+        <button className="miss ABB">BB</button>
+        <button className="miss ABR">BR</button>
+      </div>
     </div>
   );
 }

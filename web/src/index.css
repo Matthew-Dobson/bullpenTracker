@@ -1,58 +1,120 @@
-/* Square container that really stays square on the RHS */
-.page-layout { 
-  display:grid; 
-  grid-template-columns: 1fr 1fr; 
-  gap:16px; 
-  height:100vh; 
-  padding:12px; 
-}
-
-
-.right-pane {
-  grid-column: 2;
-  min-width: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center; /* centers vertically too */
-}
-
-/* Force a square using an intrinsic ratio box */
-.square-wrap {
-  position: relative;
-  inline-size: min(95%, 45vw, 720px); /* fits in the 50/50 column */
-  max-inline-size: 100%;
-}
-
-.square-wrap::before {
-  content: "";
-  display: block;
-  padding-top: 100%; /* <- makes it a square */
-}
-
-/* ===== 5x5 grid fills the square ===== */
-.grid-5x5 {
-  position: absolute;  /* fill the square created above */
-  inset: 0;
+/* ---- Layout ---- */
+.page-layout {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  grid-template-rows: repeat(5, 1fr);
-  gap: 1px;
-  width: 100%;
-  height: 100%;
+  grid-template-areas:
+    "table table controls pitch"
+    "table table intended intended"
+    "table table actual actual";
+
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+
+  min-height: 95vh;
+  outline: 2px solid black;
 }
 
-/* Buttons fill their grid cell */
-.grid-5x5 > button {
+/* ---- Table area ---- */
+.table {
+  grid-area: table;
+  outline: 1px solid black;
+}
+
+/* ---- Control buttons ---- */
+.start-stop-container {
+  grid-area: controls;
   display: grid;
-  place-items: center;
-  border: 1px solid #222;
-  font: inherit;
+  gap: 20px;
+  padding: 20px;
+  outline: 1px solid black;
+}
+
+.pitch-type-container {
+  grid-area: pitch;
+  display: grid;
+  gap: 20px;
+  padding: 20px;
+  outline: 1px solid black;
+}
+
+.control-btn {
+  padding: 10px;
+  font-weight: bold;
+  border: 1px solid black;
   cursor: pointer;
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
+}
+.control-btn.start { background: #d2ffd2; }
+.control-btn.stop  { background: #ffd2d2; }
+
+.pitch-btn {
+  padding: 10px;
+  background: #f0f0ff;
+  border: 1px solid black;
+  cursor: pointer;
 }
 
-/* Visuals */
-.miss-button   { background: rgb(6, 27, 180); }
-.strike-button { background: rgb(243, 43, 43); }
+/* ---- Intended strike zone (3×3 grid) ---- */
+.intended-zone {
+  grid-area: intended;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 6px;
+  padding: 20px;
+  outline: 1px solid black;
+}
+
+/* ---- Actual zone (8×8 grid with strike + miss) ---- */
+.actual-zone {
+  grid-area: actual;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+  gap: 6px;
+  padding: 20px;
+  outline: 1px solid black;
+
+  grid-template-areas:
+    "ATL ATL ATT ATT ATT ATT ATR ATR"
+    "AML az1 az1 az2 az2 az3 az3 AMR"
+    "AML az1 az1 az2 az2 az3 az3 AMR"
+    "AML az4 az4 az5 az5 az6 az6 AMR"
+    "AML az4 az4 az5 az5 az6 az6 AMR"
+    "AML az7 az7 az8 az8 az9 az9 AMR"
+    "AML az7 az7 az8 az8 az9 az9 AMR"
+    "ABL ABL ABB ABB ABB ABB ABR ABR";
+}
+
+/* ---- Buttons inside zones ---- */
+.strike {
+  background: white;
+  border: 1px solid black;
+  font-weight: bold;
+}
+.miss {
+  background: #f3f3f3;
+  border: 1px solid black;
+  color: #333;
+}
+
+/* ---- Area assignments ---- */
+.az1 { grid-area: az1; }  .az2 { grid-area: az2; }  .az3 { grid-area: az3; }
+.az4 { grid-area: az4; }  .az5 { grid-area: az5; }  .az6 { grid-area: az6; }
+.az7 { grid-area: az7; }  .az8 { grid-area: az8; }  .az9 { grid-area: az9; }
+
+.ATL { grid-area: ATL; }  .ATT { grid-area: ATT; }  
+.ATR { grid-area: ATR; }  .AML { grid-area: AML; }  
+.AMR { grid-area: AMR; }  .ABL { grid-area: ABL; }
+.ABB { grid-area: ABB; }  .ABR { grid-area: ABR; }
+
+button { /*button styling*/
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+button:hover {
+  transform: scale(1.05);
+}
+
+.strike:hover { background: #e6ffe6; }
+.miss:hover   { background: #ffe6e6; }
+.control-btn:hover { background: #e0e0e0; }
+.pitch-btn:hover   { background: #dcdcff; }
