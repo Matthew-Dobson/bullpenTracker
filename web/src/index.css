@@ -114,7 +114,8 @@ button:hover {
   transform: scale(1.05);
 }
 
+.control-btn.start:hover { background: #d2ffd2; }
+.control-btn.stop:hover { background: #ffd2d2; }
 .strike:hover { background: #e6ffe6; }
 .miss:hover   { background: #ffe6e6; }
-.control-btn:hover { background: #e0e0e0; }
 .pitch-btn:hover   { background: #dcdcff; }
