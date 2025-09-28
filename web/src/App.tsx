@@ -1,17 +1,37 @@
+import { useState } from "react";
+
 export default function StrikeZone() {
 
-  let isRunning = false;
+  const [isRunning, setIsRunning] = useState(false);
+  const [sessionId, setSessionId] = useState<string | null>(null);
 
-  function handleControlStart() {
-    isRunning = true;
-    console.log("started");
+  // ---------- CONTROL BUTTONS ----------
+  async function handleControlStart() {
+    try {
+      const res = await fetch("http://127.0.0.1:8000/sessions/start", { method: "POST" });
+      if (!res.ok) throw new Error(await res.text());
+      const data = await res.json();
+      setSessionId(data.sessionId);
+      setIsRunning(true);
+      console.log("session started:", data.sessionId);
+    } catch (err) {
+      console.error("Failed to start session:", err);
+      alert("Could not start session. Check server.");
+    }
   }
 
-  function handleControlStop() {
-    isRunning = false;
-    console.log("stopped");
+  async function handleControlStop() {
+    if (!sessionId) return;
+    try {
+      await fetch(`http://127.0.0.1:8000/sessions/${sessionId}/end`, { method: "POST" });
+      console.log("session ended");
+    } catch (err) {
+      console.error("Failed to end session:", err);
+    } finally {
+      setIsRunning(false);
+      setSessionId(null);
+    }
   }
-
   function handlePitchTypeFourSeam() {
     console.log("four seam");
   }
@@ -43,8 +63,20 @@ export default function StrikeZone() {
 
       {/* Top-right controls */}
       <div className="start-stop-container">
-        <button className="control-btn start" onClick={handleControlStart}>Start</button>
-        <button className="control-btn stop" onClick={handleControlStop}>Stop</button>
+        <button
+          className="control-btn start"
+          onClick={handleControlStart}
+          disabled={isRunning}
+        >
+          Start
+        </button>
+        <button
+          className="control-btn stop"
+          onClick={handleControlStop}
+          disabled={!isRunning}
+        >
+          Stop
+        </button>
       </div>
 
       <div className="pitch-type-container">
