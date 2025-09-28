@@ -19,8 +19,18 @@ export default function StrikeZone() {
   function handlePitchType126Curveball() {
     console.log("12-6 curveball");
   }
-  function handleIntendedZone(zone: number) {
+  async function handleIntendedZone(zone: number) {
     console.log("intended zone", zone);
+
+    try {
+      await fetch("http://127.0.0.1:8000/pitch", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ zone })   // zone is already a number
+      });
+    } catch (err) {
+      console.error("POST failed:", err);
+    }
   }
 
   function handleActualZone(zone: number | string) {
